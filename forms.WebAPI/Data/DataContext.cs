@@ -9,6 +9,9 @@ namespace forms.WebAPI.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Formulario> Formulario { get; set; }
-
+        public DbSet<Answer> Answer {get; set;}
+        public DbSet<User> User {get; set;}
+        public DbSet<User_Formulario> User_Formulario {get; set;}
+        public DbSet<Creator> Creator {get; set;}
     }
 }

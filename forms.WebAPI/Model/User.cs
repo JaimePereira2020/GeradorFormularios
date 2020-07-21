@@ -4,7 +4,7 @@ namespace forms.WebAPI.Model
 {
     public class User
     {
-        public int id_User {get; set;}
+        public int UserID {get; set;}
         public string name {get; set;}
         public string institution {get; set;}
 
