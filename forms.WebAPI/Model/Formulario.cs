@@ -9,7 +9,7 @@ namespace forms.WebAPI.Model
         public string version { get; set; }
 
         public string theme { get; set; }
-        
-        //public int CreatorID { get; set; }
+
+        public int CreatorID { get; set; }
     }
 }

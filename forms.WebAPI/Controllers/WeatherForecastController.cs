@@ -34,7 +34,7 @@ namespace forms.WebAPI.Controllers
                     description = "Description Form1",
                     status="Publicado",
                     version="1.0",
-                    id_Creator= 1
+                    CreatorID= 1
                 },
                 new Formulario (){
                     FormularioID=2,
@@ -42,7 +42,7 @@ namespace forms.WebAPI.Controllers
                     description = "Description Form2",
                     status="Rascunho",
                     version="1.0",
-                    id_Creator= 2
+                    CreatorID= 2
                 }
 
              };
@@ -61,7 +61,7 @@ namespace forms.WebAPI.Controllers
                     description = "Description Form1",
                     status="Publicado",
                     version="1.0",
-                    id_Creator= 1
+                    CreatorID= 1
                 },
                 new Formulario (){
                     FormularioID=2,
@@ -69,7 +69,7 @@ namespace forms.WebAPI.Controllers
                     description = "Description Form2",
                     status="Rascunho",
                     version="1.0",
-                    id_Creator= 2
+                    CreatorID= 2
                 }
 
              }.FirstOrDefault(x => x.FormularioID == id);
