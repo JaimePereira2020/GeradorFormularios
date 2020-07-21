@@ -4,36 +4,76 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using forms.WebAPI.Data;
+using forms.WebAPI.Model;
 
 namespace forms.WebAPI.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+   
+    [Route("api/[controller]")]
+     [ApiController]
+    public class ValuesController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        //private readonly DataContext _context;
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        // public ValuesController(DataContext context)
+        // {
+        //     _context = context;
+        // }
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
-
+        //GET ALL
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+
+        public ActionResult<IEnumerable<Formulario>> Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return new Formulario[] {
+                new Formulario (){
+                    FormularioID=1,
+                    name = "Form1",
+                    description = "Description Form1",
+                    status="Publicado",
+                    version="1.0",
+                    id_Creator= 1
+                },
+                new Formulario (){
+                    FormularioID=2,
+                    name = "Form2",
+                    description = "Description Form2",
+                    status="Rascunho",
+                    version="1.0",
+                    id_Creator= 2
+                }
+
+             };
         }
+        //GET by ID
+        [HttpGet("{id}")]
+
+       
+        public ActionResult<Formulario> Get(int id)
+       
+        { 
+             return new Formulario[] {
+                new Formulario (){
+                    FormularioID=1,
+                    name = "Form1",
+                    description = "Description Form1",
+                    status="Publicado",
+                    version="1.0",
+                    id_Creator= 1
+                },
+                new Formulario (){
+                    FormularioID=2,
+                    name = "Form2",
+                    description = "Description Form2",
+                    status="Rascunho",
+                    version="1.0",
+                    id_Creator= 2
+                }
+
+             }.FirstOrDefault(x => x.FormularioID == id);
+        }
+
     }
 }
