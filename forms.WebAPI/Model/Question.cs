@@ -18,7 +18,7 @@ namespace forms.WebAPI.Model
         public string quetionDependency {get; set;}
         public string answerDependency {get; set;}
         public string positionQuetion {get; set;}
-         public virtual Formulario Formulario { get; set; }
+        public virtual Formulario Formulario { get; set; }
         public virtual Matrix Matrix { get; set; }
     }
 }
