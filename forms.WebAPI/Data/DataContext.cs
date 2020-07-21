@@ -8,5 +8,8 @@ namespace forms.WebAPI.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         public DbSet<Formulario> Formulario { get; set; }
+        public DbSet<Matrix> Matrix { get; set; }
+        public DbSet<PossibilityAnswer> PossibilityAnswer { get; set; }
+        public DbSet<Question> Question { get; set; }
     }
 }
