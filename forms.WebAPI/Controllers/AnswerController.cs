@@ -1,7 +1,59 @@
+using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using forms.WebAPI.Data;
+using forms.WebAPI.Model;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+
 namespace forms.WebAPI.Controllers
 {
-    public class Answer
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AnswerController : ControllerBase
     {
         
+         private readonly DataContext _context;
+
+        public AnswerController(DataContext context)
+        {
+            _context = context;
+        }
+        
+        //GET ALL
+        [HttpGet]
+
+         public async Task<IActionResult> Get()
+        {
+            try
+            {
+                 var results = await _context.Answer.ToListAsync();
+                 return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+            }
+        }
+        //GET by ID
+        [HttpGet("{id}")]
+
+       
+        public async Task<IActionResult> Get(int id)
+        {
+            //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
+            try
+            {
+                 var results = await _context.Answer.FirstOrDefaultAsync(x => x.AnswerID == id);
+                 return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+            }
+        }
     }
 }
