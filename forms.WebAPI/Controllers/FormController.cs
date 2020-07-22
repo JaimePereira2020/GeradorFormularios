@@ -22,7 +22,6 @@ namespace forms.WebAPI.Controllers
         
         //GET ALL
         [HttpGet]
-
          public async Task<IActionResult> Get()
         {
             try
@@ -38,8 +37,6 @@ namespace forms.WebAPI.Controllers
         }
         //GET by ID
         [HttpGet("{id}")]
-
-       
         public async Task<IActionResult> Get(int id)
         {
             //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
@@ -54,6 +51,7 @@ namespace forms.WebAPI.Controllers
                 throw;
             }
         }
+        
 
     }
 }
