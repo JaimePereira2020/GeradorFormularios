@@ -18,6 +18,10 @@ namespace forms.WebAPI.Data
         public DbSet<User> User {get; set;}
         public DbSet<User_Formulario> User_Formulario {get; set;}
         public DbSet<Creator> Creator {get; set;}
+        
 
     }
+
+
+    
 }
