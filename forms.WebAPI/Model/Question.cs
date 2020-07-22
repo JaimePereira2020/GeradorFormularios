@@ -14,7 +14,7 @@ namespace forms.WebAPI.Model
         public string regex {get; set;}
         public string erroText {get; set;}
         public string condiction {get; set;}
-        public string flagDependency {get; set;}
+        public bool flagDependency {get; set;}
         public string quetionDependency {get; set;}
         public string answerDependency {get; set;}
         public string positionQuetion {get; set;}
