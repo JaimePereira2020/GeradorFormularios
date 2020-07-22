@@ -7,6 +7,34 @@ namespace forms.WebAPI.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Creator",
+                columns: table => new
+                {
+                    CreatorID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    name = table.Column<string>(nullable: true),
+                    institution = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Creator", x => x.CreatorID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "User",
+                columns: table => new
+                {
+                    UserID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    name = table.Column<string>(nullable: true),
+                    institution = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_User", x => x.UserID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Formulario",
                 columns: table => new
                 {
@@ -22,6 +50,31 @@ namespace forms.WebAPI.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Formulario", x => x.FormularioID);
+                    table.ForeignKey(
+                        name: "FK_Formulario_Creator_CreatorID",
+                        column: x => x.CreatorID,
+                        principalTable: "Creator",
+                        principalColumn: "CreatorID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserFormulario",
+                columns: table => new
+                {
+                    UserFormularioID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    UserID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserFormulario", x => x.UserFormularioID);
+                    table.ForeignKey(
+                        name: "FK_UserFormulario_User_UserID",
+                        column: x => x.UserID,
+                        principalTable: "User",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -121,6 +174,72 @@ namespace forms.WebAPI.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Answer",
+                columns: table => new
+                {
+                    AnswerID = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    descriptionValueAnswer = table.Column<string>(nullable: true),
+                    UserID = table.Column<int>(nullable: true),
+                    FormularioID = table.Column<int>(nullable: true),
+                    PossibilityAnswerID = table.Column<int>(nullable: true),
+                    questionID = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Answer", x => x.AnswerID);
+                    table.ForeignKey(
+                        name: "FK_Answer_Formulario_FormularioID",
+                        column: x => x.FormularioID,
+                        principalTable: "Formulario",
+                        principalColumn: "FormularioID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Answer_PossibilityAnswer_PossibilityAnswerID",
+                        column: x => x.PossibilityAnswerID,
+                        principalTable: "PossibilityAnswer",
+                        principalColumn: "PossibilityAnswerID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Answer_User_UserID",
+                        column: x => x.UserID,
+                        principalTable: "User",
+                        principalColumn: "UserID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Answer_Question_questionID",
+                        column: x => x.questionID,
+                        principalTable: "Question",
+                        principalColumn: "questionID",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answer_FormularioID",
+                table: "Answer",
+                column: "FormularioID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answer_PossibilityAnswerID",
+                table: "Answer",
+                column: "PossibilityAnswerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answer_UserID",
+                table: "Answer",
+                column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answer_questionID",
+                table: "Answer",
+                column: "questionID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Formulario_CreatorID",
+                table: "Formulario",
+                column: "CreatorID");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Matrix_FormularioID",
                 table: "Matrix",
@@ -150,12 +269,26 @@ namespace forms.WebAPI.Migrations
                 name: "IX_Question_MatrixID",
                 table: "Question",
                 column: "MatrixID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFormulario_UserID",
+                table: "UserFormulario",
+                column: "UserID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Answer");
+
+            migrationBuilder.DropTable(
+                name: "UserFormulario");
+
+            migrationBuilder.DropTable(
                 name: "PossibilityAnswer");
+
+            migrationBuilder.DropTable(
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Question");
@@ -165,6 +298,9 @@ namespace forms.WebAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Formulario");
+
+            migrationBuilder.DropTable(
+                name: "Creator");
         }
     }
 }
