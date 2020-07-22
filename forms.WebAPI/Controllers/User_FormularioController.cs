@@ -11,12 +11,12 @@ namespace forms.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class User_FormularioController : ControllerBase
+    public class UserFormularioController : ControllerBase
     {
         
          private readonly DataContext _context;
 
-        public User_FormularioController(DataContext context)
+        public UserFormularioController(DataContext context)
         {
             _context = context;
         }

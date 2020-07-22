@@ -16,6 +16,57 @@ namespace forms.WebAPI.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.6");
 
+            modelBuilder.Entity("forms.WebAPI.Model.Answer", b =>
+                {
+                    b.Property<int>("AnswerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FormularioID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("PossibilityAnswerID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("UserID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("descriptionValueAnswer")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("questionID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AnswerID");
+
+                    b.HasIndex("FormularioID");
+
+                    b.HasIndex("PossibilityAnswerID");
+
+                    b.HasIndex("UserID");
+
+                    b.HasIndex("questionID");
+
+                    b.ToTable("Answer");
+                });
+
+            modelBuilder.Entity("forms.WebAPI.Model.Creator", b =>
+                {
+                    b.Property<int>("CreatorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("institution")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CreatorID");
+
+                    b.ToTable("Creator");
+                });
+
             modelBuilder.Entity("forms.WebAPI.Model.Formulario", b =>
                 {
                     b.Property<int>("FormularioID")
@@ -41,6 +92,8 @@ namespace forms.WebAPI.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("FormularioID");
+
+                    b.HasIndex("CreatorID");
 
                     b.ToTable("Formulario");
                 });
@@ -165,10 +218,71 @@ namespace forms.WebAPI.Migrations
                     b.ToTable("Question");
                 });
 
-            modelBuilder.Entity("forms.WebAPI.Model.Matrix", b =>
+            modelBuilder.Entity("forms.WebAPI.Model.User", b =>
+                {
+                    b.Property<int>("UserID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("institution")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("UserID");
+
+                    b.ToTable("User");
+                });
+
+            modelBuilder.Entity("forms.WebAPI.Model.UserFormulario", b =>
+                {
+                    b.Property<int>("UserFormularioID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("UserID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("UserFormularioID");
+
+                    b.HasIndex("UserID");
+
+                    b.ToTable("UserFormulario");
+                });
+
+            modelBuilder.Entity("forms.WebAPI.Model.Answer", b =>
                 {
                     b.HasOne("forms.WebAPI.Model.Formulario", "Formulario")
                         .WithMany()
+                        .HasForeignKey("FormularioID");
+
+                    b.HasOne("forms.WebAPI.Model.PossibilityAnswer", "PossibilityAnswer")
+                        .WithMany()
+                        .HasForeignKey("PossibilityAnswerID");
+
+                    b.HasOne("forms.WebAPI.Model.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserID");
+
+                    b.HasOne("forms.WebAPI.Model.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("questionID");
+                });
+
+            modelBuilder.Entity("forms.WebAPI.Model.Formulario", b =>
+                {
+                    b.HasOne("forms.WebAPI.Model.Creator", null)
+                        .WithMany("Formulario")
+                        .HasForeignKey("CreatorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("forms.WebAPI.Model.Matrix", b =>
+                {
+                    b.HasOne("forms.WebAPI.Model.Formulario", "Formulario")
+                        .WithMany("Matrix")
                         .HasForeignKey("FormularioID");
                 });
 
@@ -196,6 +310,13 @@ namespace forms.WebAPI.Migrations
                     b.HasOne("forms.WebAPI.Model.Matrix", "Matrix")
                         .WithMany()
                         .HasForeignKey("MatrixID");
+                });
+
+            modelBuilder.Entity("forms.WebAPI.Model.UserFormulario", b =>
+                {
+                    b.HasOne("forms.WebAPI.Model.User", "User")
+                        .WithMany("UserFormulario")
+                        .HasForeignKey("UserID");
                 });
 #pragma warning restore 612, 618
         }
