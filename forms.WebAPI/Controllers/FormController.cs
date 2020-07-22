@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using forms.WebAPI.Data;
 using forms.WebAPI.Model;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace forms.WebAPI.Controllers
 {
@@ -10,57 +13,46 @@ namespace forms.WebAPI.Controllers
     [ApiController]
     public class FormController : ControllerBase
     {
+         private readonly DataContext _context;
+
+        public FormController(DataContext context)
+        {
+            _context = context;
+        }
+        
         //GET ALL
         [HttpGet]
 
-        public ActionResult<IEnumerable<Formulario>> Get()
+         public async Task<IActionResult> Get()
         {
-            return new Formulario[] {
-                new Formulario (){
-                    FormularioID=1,
-                    name = "Form1",
-                    description = "Description Form1",
-                    status="Publicado",
-                    version="1.0",
-                    CreatorID= 1
-                },
-                new Formulario (){
-                    FormularioID=2,
-                    name = "Form2",
-                    description = "Description Form2",
-                    status="Rascunho",
-                    version="1.0",
-                    CreatorID= 2
-                }
-
-             };
+            try
+            {
+                 var results = await _context.Formulario.ToListAsync();
+                 return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+            }
         }
         //GET by ID
         [HttpGet("{id}")]
 
        
-        public ActionResult<Formulario> Get(int id)
-       
-        { 
-             return new Formulario[] {
-                new Formulario (){
-                    FormularioID=1,
-                    name = "Form1",
-                    description = "Description Form1",
-                    status="Publicado",
-                    version="1.0",
-                    CreatorID= 1
-                },
-                new Formulario (){
-                    FormularioID=2,
-                    name = "Form2",
-                    description = "Description Form2",
-                    status="Rascunho",
-                    version="1.0",
-                    CreatorID= 2
-                }
-
-             }.FirstOrDefault(x => x.FormularioID == id);
+        public async Task<IActionResult> Get(int id)
+        {
+            //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
+            try
+            {
+                 var results = await _context.Formulario.FirstOrDefaultAsync(x => x.FormularioID == id);
+                 return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+            }
         }
 
     }
