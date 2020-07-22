@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using forms.WebAPI.Data;
 using forms.WebAPI.Model;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace forms.WebAPI.Controllers
 {
@@ -9,31 +13,47 @@ namespace forms.WebAPI.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
+        
+         private readonly DataContext _context;
+
+        public QuestionController(DataContext context)
+        {
+            _context = context;
+        }
+        
         //GET ALL
         [HttpGet]
 
-        public ActionResult<IEnumerable<Question>> Get()
+         public async Task<IActionResult> Get()
         {
-            return new Question[] {
-                new Question (){
-                    questionID=1,
-                    descriptionValueQuetion = "Quetion1",
-                    type = "Description Quetion1",
-                    icon="icon Quetion1",
-                    label="Lb Quetion1",
-                    help= "help Quetion1",
-                    placeHolder= "placeholder Quetion1",
-                    className= "class Quetion1",
-                    subType= " sub Quetion1",
-                    regex= "regex Quetion1",
-                    erroText= " error Quetion1",
-                    condiction= "cond Quetion1",
-                    flagDependency= true,
-                    quetionDependency= "dep Quetion1",
-                    answerDependency= "ansDep Quetion1",
-                    positionQuetion= "position Quetion1"
-                }
-             };
+            try
+            {
+                 var results = await _context.Question.ToListAsync();
+                 return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+            }
+        }
+        //GET by ID
+        [HttpGet("{id}")]
+
+       
+        public async Task<IActionResult> Get(int id)
+        {
+            //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
+            try
+            {
+                 var results = await _context.Question.FirstOrDefaultAsync(x => x.questionID == id);
+                 return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+            }
         }
     }
 }
