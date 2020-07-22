@@ -5,8 +5,8 @@ namespace forms.WebAPI.Model
     public class Creator
     {
         public int CreatorID { get; set; }
-        public string CourseID { get; set; }
-        public string StudentID { get; set; }
+        public string name { get; set; }
+        public string institution { get; set; }
         public virtual List<Formulario> Formulario { get; set; } 
     }
 }
