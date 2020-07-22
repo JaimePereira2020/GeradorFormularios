@@ -49,20 +49,9 @@ namespace forms.WebAPI.Controllers
         public ActionResult<User> Get(int id)
        
         { 
-             return new User[] {
-                new User (){
-                    UserID=1,
-                    name="Jaime",
-                    institution="Prochild"
-                },
-                new User (){
-                    UserID=2,
-                    name="Daniel",
-                    institution="CCG"
-                }
-
-             }.FirstOrDefault(x => x.UserID == id);
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+            }
         }
-
     }
 }
