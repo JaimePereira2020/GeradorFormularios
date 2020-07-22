@@ -3,11 +3,11 @@ namespace forms.WebAPI.Model
     public class Answer
     {
         
-        public int id_Answer { get; set; }
-        public int id_user { get; set; }
-        public int id_Formulario { get; set; }
-        public int id_PossibilityAnswer { get; set; }
-        public int id_Question { get; set; }
+        public int AnswerID { get; set; }
+        public int UserID { get; set; }
+        public int FormularioID { get; set; }
+        public int PossibilityAnswerID { get; set; }
+        public int QuestionID { get; set; }
         public string descriptionValueAnswer { get; set; }
         
         public virtual User User { get; set; }
