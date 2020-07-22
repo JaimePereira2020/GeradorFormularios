@@ -55,5 +55,25 @@ namespace forms.WebAPI.Controllers
                 throw;
             }
         }
+
+        // POST: api/User
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser(User user)
+        {
+            bool UserIDAlreadyExists = _context.User.Any(x => x.UserID == user.UserID);
+            
+            if (ModelState.IsValid && UserIDAlreadyExists != true)
+            {
+                _context.User.Add(user);
+                await _context.SaveChangesAsync();
+
+                //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+                return CreatedAtAction(nameof(Get), new { id = user.UserID }, user);
+            }
+            
+            return BadRequest("userid already exists");
+           
+            
+        }
     }
 }

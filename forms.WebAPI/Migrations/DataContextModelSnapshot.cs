@@ -241,10 +241,15 @@ namespace forms.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("FormularioID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("UserFormularioID");
+
+                    b.HasIndex("FormularioID");
 
                     b.HasIndex("UserID");
 
@@ -314,9 +319,17 @@ namespace forms.WebAPI.Migrations
 
             modelBuilder.Entity("forms.WebAPI.Model.UserFormulario", b =>
                 {
+                    b.HasOne("forms.WebAPI.Model.Formulario", "Formulario")
+                        .WithMany()
+                        .HasForeignKey("FormularioID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("forms.WebAPI.Model.User", "User")
                         .WithMany("UserFormulario")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
