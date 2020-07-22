@@ -71,7 +71,7 @@ namespace forms.WebAPI.Controllers
                 return CreatedAtAction(nameof(Get), new { id = user.UserID }, user);
             }
             
-            return BadRequest("userid already exists");
+            return BadRequest("UserID already exists");
            
             
         }
