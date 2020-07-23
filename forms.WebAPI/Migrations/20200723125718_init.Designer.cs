@@ -9,7 +9,7 @@ using forms.WebAPI.Data;
 namespace forms.WebAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200722133527_init")]
+    [Migration("20200723125718_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace forms.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("FormularioID")
+                    b.Property<int?>("FormID")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("PossibilityAnswerID")
@@ -41,7 +41,7 @@ namespace forms.WebAPI.Migrations
 
                     b.HasKey("AnswerID");
 
-                    b.HasIndex("FormularioID");
+                    b.HasIndex("FormID");
 
                     b.HasIndex("PossibilityAnswerID");
 
@@ -69,9 +69,9 @@ namespace forms.WebAPI.Migrations
                     b.ToTable("Creator");
                 });
 
-            modelBuilder.Entity("forms.WebAPI.Model.Formulario", b =>
+            modelBuilder.Entity("forms.WebAPI.Model.Form", b =>
                 {
-                    b.Property<int>("FormularioID")
+                    b.Property<int>("FormID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -93,11 +93,11 @@ namespace forms.WebAPI.Migrations
                     b.Property<string>("version")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("FormularioID");
+                    b.HasKey("FormID");
 
                     b.HasIndex("CreatorID");
 
-                    b.ToTable("Formulario");
+                    b.ToTable("Form");
                 });
 
             modelBuilder.Entity("forms.WebAPI.Model.Matrix", b =>
@@ -106,7 +106,10 @@ namespace forms.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("FormularioID")
+                    b.Property<int?>("FormID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FormularioID")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("descriptionMatrix")
@@ -120,7 +123,7 @@ namespace forms.WebAPI.Migrations
 
                     b.HasKey("MatrixID");
 
-                    b.HasIndex("FormularioID");
+                    b.HasIndex("FormID");
 
                     b.ToTable("Matrix");
                 });
@@ -131,7 +134,7 @@ namespace forms.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("FormularioID")
+                    b.Property<int?>("FormID")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("MatrixID")
@@ -145,7 +148,7 @@ namespace forms.WebAPI.Migrations
 
                     b.HasKey("PossibilityAnswerID");
 
-                    b.HasIndex("FormularioID");
+                    b.HasIndex("FormID");
 
                     b.HasIndex("MatrixID");
 
@@ -160,7 +163,7 @@ namespace forms.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("FormularioID")
+                    b.Property<int?>("FormID")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("MatrixID")
@@ -213,7 +216,7 @@ namespace forms.WebAPI.Migrations
 
                     b.HasKey("questionID");
 
-                    b.HasIndex("FormularioID");
+                    b.HasIndex("FormID");
 
                     b.HasIndex("MatrixID");
 
@@ -243,7 +246,7 @@ namespace forms.WebAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("UserID")
+                    b.Property<int>("UserID")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("UserFormularioID");
@@ -255,9 +258,9 @@ namespace forms.WebAPI.Migrations
 
             modelBuilder.Entity("forms.WebAPI.Model.Answer", b =>
                 {
-                    b.HasOne("forms.WebAPI.Model.Formulario", "Formulario")
+                    b.HasOne("forms.WebAPI.Model.Form", "Form")
                         .WithMany()
-                        .HasForeignKey("FormularioID");
+                        .HasForeignKey("FormID");
 
                     b.HasOne("forms.WebAPI.Model.PossibilityAnswer", "PossibilityAnswer")
                         .WithMany()
@@ -272,10 +275,10 @@ namespace forms.WebAPI.Migrations
                         .HasForeignKey("questionID");
                 });
 
-            modelBuilder.Entity("forms.WebAPI.Model.Formulario", b =>
+            modelBuilder.Entity("forms.WebAPI.Model.Form", b =>
                 {
                     b.HasOne("forms.WebAPI.Model.Creator", null)
-                        .WithMany("Formulario")
+                        .WithMany("Form")
                         .HasForeignKey("CreatorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -283,16 +286,16 @@ namespace forms.WebAPI.Migrations
 
             modelBuilder.Entity("forms.WebAPI.Model.Matrix", b =>
                 {
-                    b.HasOne("forms.WebAPI.Model.Formulario", "Formulario")
-                        .WithMany("Matrix")
-                        .HasForeignKey("FormularioID");
+                    b.HasOne("forms.WebAPI.Model.Form", "Form")
+                        .WithMany()
+                        .HasForeignKey("FormID");
                 });
 
             modelBuilder.Entity("forms.WebAPI.Model.PossibilityAnswer", b =>
                 {
-                    b.HasOne("forms.WebAPI.Model.Formulario", "Formulario")
+                    b.HasOne("forms.WebAPI.Model.Form", "Form")
                         .WithMany()
-                        .HasForeignKey("FormularioID");
+                        .HasForeignKey("FormID");
 
                     b.HasOne("forms.WebAPI.Model.Matrix", "Matrix")
                         .WithMany()
@@ -305,9 +308,9 @@ namespace forms.WebAPI.Migrations
 
             modelBuilder.Entity("forms.WebAPI.Model.Question", b =>
                 {
-                    b.HasOne("forms.WebAPI.Model.Formulario", "Formulario")
+                    b.HasOne("forms.WebAPI.Model.Form", "Form")
                         .WithMany()
-                        .HasForeignKey("FormularioID");
+                        .HasForeignKey("FormID");
 
                     b.HasOne("forms.WebAPI.Model.Matrix", "Matrix")
                         .WithMany()
@@ -318,7 +321,9 @@ namespace forms.WebAPI.Migrations
                 {
                     b.HasOne("forms.WebAPI.Model.User", "User")
                         .WithMany("UserFormulario")
-                        .HasForeignKey("UserID");
+                        .HasForeignKey("UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

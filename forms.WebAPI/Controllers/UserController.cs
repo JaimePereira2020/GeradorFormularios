@@ -55,5 +55,23 @@ namespace forms.WebAPI.Controllers
                 throw;
             }
         }
+
+         [HttpPost]
+        public async Task<IActionResult> Post(User user)
+        {
+           try
+            {
+                _context.User.Add(user);
+                await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(Get), new { id = user.UserID }, user);
+             }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "ERRO");
+                throw;
+            }
+        }
+
+
     }
 }

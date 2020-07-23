@@ -25,24 +25,24 @@ namespace forms.WebAPI.Controllers
         //GET ALL
         [HttpGet]
 
-        public ActionResult<IEnumerable<Formulario>> Get()
+        public ActionResult<IEnumerable<Form>> Get()
         {
-            return new Formulario[] {
-                new Formulario (){
-                    FormularioID=1,
+            return new Form[] {
+                new Form (){
+                    FormID=1,
                     name = "Form1",
                     description = "Description Form1",
                     status="Publicado",
                     version="1.0",
-                    CreatorID= 1
+                
                 },
-                new Formulario (){
-                    FormularioID=2,
+                new Form (){
+                    FormID=2,
                     name = "Form2",
                     description = "Description Form2",
                     status="Rascunho",
                     version="1.0",
-                    CreatorID= 2
+                  
                 }
 
              };
@@ -51,28 +51,28 @@ namespace forms.WebAPI.Controllers
         [HttpGet("{id}")]
 
        
-        public ActionResult<Formulario> Get(int id)
+        public ActionResult<Form> Get(int id)
        
         { 
-             return new Formulario[] {
-                new Formulario (){
-                    FormularioID=1,
+             return new Form[] {
+                new Form (){
+                    FormID=1,
                     name = "Form1",
                     description = "Description Form1",
                     status="Publicado",
-                    version="1.0",
-                    CreatorID= 1
+                    version="1.0"
+                
                 },
-                new Formulario (){
-                    FormularioID=2,
+                new Form (){
+                    FormID=2,
                     name = "Form2",
                     description = "Description Form2",
                     status="Rascunho",
-                    version="1.0",
-                    CreatorID= 2
+                    version="1.0"
+                   
                 }
 
-             }.FirstOrDefault(x => x.FormularioID == id);
+             }.FirstOrDefault(x => x.FormID == id);
         }
 
     }

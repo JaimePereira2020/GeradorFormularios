@@ -26,7 +26,7 @@ namespace forms.WebAPI.Controllers
         {
             try
             {
-                 var results = await _context.Formulario.ToListAsync();
+                 var results = await _context.Form.ToListAsync();
                  return Ok(results);
             }
             catch (System.Exception)
@@ -42,7 +42,7 @@ namespace forms.WebAPI.Controllers
             //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
             try
             {
-                 var results = await _context.Formulario.FirstOrDefaultAsync(x => x.FormularioID == id);
+                 var results = await _context.Form.FirstOrDefaultAsync(x => x.FormID == id);
                  return Ok(results);
             }
             catch (System.Exception)
@@ -51,7 +51,87 @@ namespace forms.WebAPI.Controllers
                 throw;
             }
         }
-        
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Form form)
+        {
+           bool UserIDAlreadyExists = _context.Form.Any(x => x.FormID == form.FormID);
+           try{
+            _context.Form.Add(form);
+                await _context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(Get), new { id = form.FormID }, form);
+           }
+           catch(System.Exception){
+               if (UserIDAlreadyExists==true)
+               {
+                   return BadRequest("ID already exists");
+               }
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+           }
+        }
+
+         [HttpPut("{id}")]
+        public async Task<IActionResult> PutForm(long id, Form form)
+        {
+            if (id != form.FormID)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(form).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!FormExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Form>> DeleteForm(int id)
+        {
+            var form = await _context.Form.FindAsync(id);
+            if (form == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _context.Form.Remove(form);
+                await _context.SaveChangesAsync();
+
+                return form;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!FormExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        private bool FormExists(long id) =>
+         _context.Form.Any(e => e.FormID == id);
+
+
 
     }
 }

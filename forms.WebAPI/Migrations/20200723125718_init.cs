@@ -35,10 +35,10 @@ namespace forms.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Formulario",
+                name: "Form",
                 columns: table => new
                 {
-                    FormularioID = table.Column<int>(nullable: false)
+                    FormID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     name = table.Column<string>(nullable: true),
                     description = table.Column<string>(nullable: true),
@@ -49,9 +49,9 @@ namespace forms.WebAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Formulario", x => x.FormularioID);
+                    table.PrimaryKey("PK_Form", x => x.FormID);
                     table.ForeignKey(
-                        name: "FK_Formulario_Creator_CreatorID",
+                        name: "FK_Form_Creator_CreatorID",
                         column: x => x.CreatorID,
                         principalTable: "Creator",
                         principalColumn: "CreatorID",
@@ -64,7 +64,7 @@ namespace forms.WebAPI.Migrations
                 {
                     UserFormularioID = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserID = table.Column<int>(nullable: true)
+                    UserID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,7 +74,7 @@ namespace forms.WebAPI.Migrations
                         column: x => x.UserID,
                         principalTable: "User",
                         principalColumn: "UserID",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,16 +86,17 @@ namespace forms.WebAPI.Migrations
                     descriptionMatrix = table.Column<string>(nullable: true),
                     possibilityAnswerMatrix = table.Column<string>(nullable: true),
                     positionMatrix = table.Column<int>(nullable: false),
-                    FormularioID = table.Column<int>(nullable: true)
+                    FormularioID = table.Column<int>(nullable: false),
+                    FormID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Matrix", x => x.MatrixID);
                     table.ForeignKey(
-                        name: "FK_Matrix_Formulario_FormularioID",
-                        column: x => x.FormularioID,
-                        principalTable: "Formulario",
-                        principalColumn: "FormularioID",
+                        name: "FK_Matrix_Form_FormID",
+                        column: x => x.FormID,
+                        principalTable: "Form",
+                        principalColumn: "FormID",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -120,17 +121,17 @@ namespace forms.WebAPI.Migrations
                     quetionDependency = table.Column<string>(nullable: true),
                     answerDependency = table.Column<string>(nullable: true),
                     positionQuetion = table.Column<string>(nullable: true),
-                    FormularioID = table.Column<int>(nullable: true),
+                    FormID = table.Column<int>(nullable: true),
                     MatrixID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Question", x => x.questionID);
                     table.ForeignKey(
-                        name: "FK_Question_Formulario_FormularioID",
-                        column: x => x.FormularioID,
-                        principalTable: "Formulario",
-                        principalColumn: "FormularioID",
+                        name: "FK_Question_Form_FormID",
+                        column: x => x.FormID,
+                        principalTable: "Form",
+                        principalColumn: "FormID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Question_Matrix_MatrixID",
@@ -148,17 +149,17 @@ namespace forms.WebAPI.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     descriptionValuePossibilityAnswer = table.Column<string>(nullable: true),
                     MatrixID = table.Column<int>(nullable: true),
-                    FormularioID = table.Column<int>(nullable: true),
+                    FormID = table.Column<int>(nullable: true),
                     questionID = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PossibilityAnswer", x => x.PossibilityAnswerID);
                     table.ForeignKey(
-                        name: "FK_PossibilityAnswer_Formulario_FormularioID",
-                        column: x => x.FormularioID,
-                        principalTable: "Formulario",
-                        principalColumn: "FormularioID",
+                        name: "FK_PossibilityAnswer_Form_FormID",
+                        column: x => x.FormID,
+                        principalTable: "Form",
+                        principalColumn: "FormID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_PossibilityAnswer_Matrix_MatrixID",
@@ -182,7 +183,7 @@ namespace forms.WebAPI.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     descriptionValueAnswer = table.Column<string>(nullable: true),
                     UserID = table.Column<int>(nullable: true),
-                    FormularioID = table.Column<int>(nullable: true),
+                    FormID = table.Column<int>(nullable: true),
                     PossibilityAnswerID = table.Column<int>(nullable: true),
                     questionID = table.Column<int>(nullable: true)
                 },
@@ -190,10 +191,10 @@ namespace forms.WebAPI.Migrations
                 {
                     table.PrimaryKey("PK_Answer", x => x.AnswerID);
                     table.ForeignKey(
-                        name: "FK_Answer_Formulario_FormularioID",
-                        column: x => x.FormularioID,
-                        principalTable: "Formulario",
-                        principalColumn: "FormularioID",
+                        name: "FK_Answer_Form_FormID",
+                        column: x => x.FormID,
+                        principalTable: "Form",
+                        principalColumn: "FormID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Answer_PossibilityAnswer_PossibilityAnswerID",
@@ -216,9 +217,9 @@ namespace forms.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Answer_FormularioID",
+                name: "IX_Answer_FormID",
                 table: "Answer",
-                column: "FormularioID");
+                column: "FormID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answer_PossibilityAnswerID",
@@ -236,19 +237,19 @@ namespace forms.WebAPI.Migrations
                 column: "questionID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Formulario_CreatorID",
-                table: "Formulario",
+                name: "IX_Form_CreatorID",
+                table: "Form",
                 column: "CreatorID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Matrix_FormularioID",
+                name: "IX_Matrix_FormID",
                 table: "Matrix",
-                column: "FormularioID");
+                column: "FormID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PossibilityAnswer_FormularioID",
+                name: "IX_PossibilityAnswer_FormID",
                 table: "PossibilityAnswer",
-                column: "FormularioID");
+                column: "FormID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PossibilityAnswer_MatrixID",
@@ -261,9 +262,9 @@ namespace forms.WebAPI.Migrations
                 column: "questionID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Question_FormularioID",
+                name: "IX_Question_FormID",
                 table: "Question",
-                column: "FormularioID");
+                column: "FormID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Question_MatrixID",
@@ -297,7 +298,7 @@ namespace forms.WebAPI.Migrations
                 name: "Matrix");
 
             migrationBuilder.DropTable(
-                name: "Formulario");
+                name: "Form");
 
             migrationBuilder.DropTable(
                 name: "Creator");
