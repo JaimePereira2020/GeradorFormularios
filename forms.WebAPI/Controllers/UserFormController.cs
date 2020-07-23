@@ -11,12 +11,12 @@ namespace forms.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserFormularioController : ControllerBase
+    public class UserFormController : ControllerBase
     {
         
          private readonly DataContext _context;
 
-        public UserFormularioController(DataContext context)
+        public UserFormController(DataContext context)
         {
             _context = context;
         }
@@ -28,7 +28,7 @@ namespace forms.WebAPI.Controllers
         {
             try
             {
-                 var results = await _context.UserFormulario.ToListAsync();
+                 var results = await _context.UserForm.ToListAsync();
                  return Ok(results);
             }
             catch (System.Exception)
@@ -46,7 +46,7 @@ namespace forms.WebAPI.Controllers
             //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
             try
             {
-                 var results = await _context.UserFormulario.FirstOrDefaultAsync(x => x.UserFormularioID == id);
+                 var results = await _context.UserForm.FirstOrDefaultAsync(x => x.UserFormID == id);
                  return Ok(results);
             }
             catch (System.Exception)

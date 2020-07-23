@@ -5,16 +5,16 @@ using System.ComponentModel.DataAnnotations;
 namespace forms.WebAPI.Model
 {
 
-    public class UserFormulario
+    public class UserForm
     {
         [Key]
-       public int UserFormularioID { get; set; } 
+       public int UserFormID { get; set; } 
        public int UserID {get; set;}
-       public int FormularioID {get; set;}
+       public int FormID {get; set;}
 
        public virtual User User { get; set; }
      
-       public virtual Formulario Formulario { get; set; }
+       public virtual Form Form { get; set; }
     }
   
 }

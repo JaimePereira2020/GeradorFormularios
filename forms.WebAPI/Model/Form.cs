@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace forms.WebAPI.Model
 {
-    public class Formulario
+    public class Form
     {
-        public int FormularioID { get; set; }
+        public int FormID { get; set; }
         public string name { get; set; }
         public string description { get; set; }
         public string status { get; set; }

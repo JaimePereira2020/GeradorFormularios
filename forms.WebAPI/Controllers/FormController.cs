@@ -26,7 +26,7 @@ namespace forms.WebAPI.Controllers
         {
             try
             {
-                 var results = await _context.Formulario.ToListAsync();
+                 var results = await _context.Form.ToListAsync();
                  return Ok(results);
             }
             catch (System.Exception)
@@ -42,7 +42,7 @@ namespace forms.WebAPI.Controllers
             //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
             try
             {
-                 var results = await _context.Formulario.FirstOrDefaultAsync(x => x.FormularioID == id);
+                 var results = await _context.Form.FirstOrDefaultAsync(x => x.FormID == id);
                  return Ok(results);
             }
             catch (System.Exception)
