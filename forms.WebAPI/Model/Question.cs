@@ -1,3 +1,5 @@
+
+using System.Collections.Generic;
 namespace forms.WebAPI.Model
 {
     public class Question
@@ -18,7 +20,9 @@ namespace forms.WebAPI.Model
         public string quetionDependency {get; set;}
         public string answerDependency {get; set;}
         public string positionQuetion {get; set;}
-        public virtual Form Form { get; set; }
+        public int MatrixID { get; set; }  
         public virtual Matrix Matrix { get; set; }
+         public virtual ICollection<PossibilityAnswer> PossibilityAnswers { get; set; }
+     
     }
 }
