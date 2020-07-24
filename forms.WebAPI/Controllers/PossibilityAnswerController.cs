@@ -101,6 +101,35 @@ namespace forms.WebAPI.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<PossibilityAnswer>> DeletePAnswer(int id)
+        {
+            var pAnswer = await _context.PossibilityAnswer.FindAsync(id);
+            if (pAnswer == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _context.PossibilityAnswer.Remove(pAnswer);
+                await _context.SaveChangesAsync();
+
+                return pAnswer;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!pAnswerExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
         private bool pAnswerExists(long id) =>
          _context.PossibilityAnswer.Any(e => e.PossibilityAnswerID == id); 
         

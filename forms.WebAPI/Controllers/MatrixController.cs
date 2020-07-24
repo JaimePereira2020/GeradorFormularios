@@ -100,6 +100,34 @@ namespace forms.WebAPI.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Matrix>> DeleteMatrix(int id)
+        {
+            var matrix = await _context.Matrix.FindAsync(id);
+            if (matrix == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _context.Matrix.Remove(matrix);
+                await _context.SaveChangesAsync();
+
+                return matrix;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MatrixExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
 
         private bool MatrixExists(long id) =>
          _context.Matrix.Any(e => e.MatrixID == id);
