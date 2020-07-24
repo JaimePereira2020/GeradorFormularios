@@ -8,6 +8,7 @@ namespace forms.WebAPI.Model
         public string name { get; set; }
         public string institution { get; set; }
 
-        public virtual List<Form> Form { get; set; } 
+        public virtual ICollection<Form> Form { get; set; } 
+
     }
 }

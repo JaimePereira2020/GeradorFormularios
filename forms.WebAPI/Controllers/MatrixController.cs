@@ -52,6 +52,84 @@ namespace forms.WebAPI.Controllers
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
                 throw;
             }
-        }    
+        }  
+
+        [HttpPost]
+        public async Task<IActionResult> Post(Matrix matrix)
+        {
+             bool IDAlreadyExists = _context.Matrix.Any(x => x.MatrixID == matrix.MatrixID);
+           try{
+            _context.Matrix.Add(matrix);
+                await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(Get), new { id = matrix.MatrixID }, matrix);
+            }
+           catch(System.Exception){
+               if (IDAlreadyExists==true)
+               {
+                   return BadRequest("ID already exists");
+               }
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+                throw;
+           }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMatrix(long id, Matrix matrix)
+        {
+            if (id != matrix.MatrixID)
+            {
+                return BadRequest();
+            }
+
+            _context.Entry(matrix).State = EntityState.Modified;
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MatrixExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<Matrix>> DeleteMatrix(int id)
+        {
+            var matrix = await _context.Matrix.FindAsync(id);
+            if (matrix == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _context.Matrix.Remove(matrix);
+                await _context.SaveChangesAsync();
+
+                return matrix;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MatrixExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+
+        private bool MatrixExists(long id) =>
+         _context.Matrix.Any(e => e.MatrixID == id);
     }
 }

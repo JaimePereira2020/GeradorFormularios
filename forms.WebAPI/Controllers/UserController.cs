@@ -57,7 +57,6 @@ namespace forms.WebAPI.Controllers
                 throw;
             }
         }
-
         // POST: api/user
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
