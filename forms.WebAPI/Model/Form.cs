@@ -11,7 +11,7 @@ namespace forms.WebAPI.Model
         public string version { get; set; }
         public string theme { get; set; }
          public int CreatorID { get; set; }
-        //public virtual ICollection<Matrix> Matrix { get; set; }
-
+        public virtual ICollection<Matrix> Matrixs { get; set; }
+       public virtual ICollection<UserForm> UserForms { get; set; }
     }
 }

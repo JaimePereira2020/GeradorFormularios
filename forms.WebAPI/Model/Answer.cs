@@ -5,9 +5,9 @@ namespace forms.WebAPI.Model
         
         public int AnswerID { get; set; }
         public string descriptionValueAnswer { get; set; }
-        public virtual User User { get; set; }
-        public virtual Form Form { get; set; }
-        public virtual PossibilityAnswer PossibilityAnswer { get; set; }
-        public virtual Question Question { get; set; }
+        public int UserFormID { get; set; }
+        public int PossibilityAnswerID { get; set; }
+        public virtual UserForm UserForms { get; set; }
+        public virtual PossibilityAnswer PossibilityAnswers { get; set; }
     }
 }
