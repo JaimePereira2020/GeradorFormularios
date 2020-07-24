@@ -124,7 +124,6 @@ namespace forms.WebAPI.Controllers
             _context.User.Remove(user);
             await _context.SaveChangesAsync();
 
-            return user;
         }
         
     }
