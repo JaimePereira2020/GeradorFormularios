@@ -57,26 +57,6 @@ namespace forms.WebAPI.Controllers
                 throw;
             }
         }
-
-<<<<<<< HEAD
-         [HttpPost]
-        public async Task<IActionResult> Post(User user)
-        {
-           try
-            {
-                _context.User.Add(user);
-                await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), new { id = user.UserID }, user);
-             }
-            catch (System.Exception)
-            {
-                return this.StatusCode(StatusCodes.Status500InternalServerError, "ERRO");
-                throw;
-            }
-        }
-
-
-=======
         // POST: api/user
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(User user)
@@ -162,6 +142,5 @@ namespace forms.WebAPI.Controllers
         }
         
         private bool UserExists(int id) => _context.User.Any(e => e.UserID == id);    
->>>>>>> 2437c73cc236d0f775dc1ffe3f7e718db927c5f6
     }
 }
