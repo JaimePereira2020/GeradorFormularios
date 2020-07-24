@@ -14,7 +14,7 @@ namespace forms.WebAPI.Data
         public DbSet<Question> Question { get; set; }
         public DbSet<Answer> Answer {get; set;}
         public DbSet<User> User {get; set;}
-        public DbSet<UserFormulario> UserFormulario {get; set;}
+        public DbSet<UserForm> UserForm {get; set;}
         public DbSet<Creator> Creator {get; set;}
 
     }

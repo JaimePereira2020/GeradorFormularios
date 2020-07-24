@@ -20,6 +20,8 @@ namespace forms.WebAPI.Controllers
         {
             _context = context;
         }
+
+      
         
         //GET ALL
         [HttpGet]
@@ -56,6 +58,7 @@ namespace forms.WebAPI.Controllers
             }
         }
 
+<<<<<<< HEAD
          [HttpPost]
         public async Task<IActionResult> Post(User user)
         {
@@ -73,5 +76,92 @@ namespace forms.WebAPI.Controllers
         }
 
 
+=======
+        // POST: api/user
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser(User user)
+        {
+            bool UserIDAlreadyExists = _context.User.Any(x => x.UserID == user.UserID);
+            
+            if (ModelState.IsValid && UserIDAlreadyExists != true)
+            {
+                _context.User.Add(user);
+                await _context.SaveChangesAsync();
+
+                //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+                return CreatedAtAction(nameof(Get), new { id = user.UserID }, user);
+            }
+           
+            else
+            {
+            return BadRequest("UserID already exists");
+
+            }
+            
+        }
+        
+        // PUT: api/User/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUser(int id, User user)
+        {
+            //bool UserExists(long id) =>_context.User.Any(e => e.UserID == id);
+            
+            if (id != user.UserID)
+                {
+                    return BadRequest("The user ID does not exist");
+                }
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+                {
+                    await _context.SaveChangesAsync();
+                }
+            catch (DbUpdateConcurrencyException)
+                {
+                    if (! UserExists(id))
+                    {
+                        return NotFound("User not found");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+            return NoContent();
+        }
+
+        // DELETE: api/user/5
+        [HttpDelete("{id}")]
+         public async Task<ActionResult<User>> DeleteUser(int id)
+        {
+            var user = await _context.User.FindAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _context.User.Remove(user);
+                await _context.SaveChangesAsync();
+                return (user);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+        }
+        
+        private bool UserExists(int id) => _context.User.Any(e => e.UserID == id);    
+>>>>>>> 2437c73cc236d0f775dc1ffe3f7e718db927c5f6
     }
 }

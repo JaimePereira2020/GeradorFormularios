@@ -11,12 +11,12 @@ namespace forms.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CreatorController : ControllerBase
+    public class UserFormController : ControllerBase
     {
         
          private readonly DataContext _context;
 
-        public CreatorController(DataContext context)
+        public UserFormController(DataContext context)
         {
             _context = context;
         }
@@ -30,7 +30,7 @@ namespace forms.WebAPI.Controllers
         {
             try
             {
-                 var results = await _context.Creator.ToListAsync();
+                 var results = await _context.UserForm.ToListAsync();
                  return Ok(results);
             }
             catch (System.Exception)
@@ -48,7 +48,7 @@ namespace forms.WebAPI.Controllers
             //return _context.Eventos.FirstOrDefault(x => x.EventoId == id);
             try
             {
-                 var results = await _context.Creator.FirstOrDefaultAsync(x => x.CreatorID == id);
+                 var results = await _context.UserForm.FirstOrDefaultAsync(x => x.UserFormID == id);
                  return Ok(results);
             }
             catch (System.Exception)
@@ -60,22 +60,22 @@ namespace forms.WebAPI.Controllers
 
         // POST: api/user
         [HttpPost]
-        public async Task<ActionResult<Creator>> PostCreator(Creator creator)
+        public async Task<ActionResult<User>> PostUserForm(UserForm userForm)
         {
-            bool CreatorIDAlreadyExists = _context.Creator.Any(x => x.CreatorID == creator.CreatorID);
+            bool UserFormIDAlreadyExists = _context.UserForm.Any(x => x.UserFormID == userForm.UserFormID);
             
-            if (ModelState.IsValid && CreatorIDAlreadyExists != true)
+            if (ModelState.IsValid && UserFormIDAlreadyExists != true)
             {
-                _context.Creator.Add(creator);
+                _context.UserForm.Add(userForm);
                 await _context.SaveChangesAsync();
 
                 //return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
-                return CreatedAtAction(nameof(Get), new { id = creator.CreatorID }, creator);
+                return CreatedAtAction(nameof(Get), new { id = userForm.UserFormID }, userForm);
             }
            
             else
             {
-            return BadRequest("CreatorID already exists");
+            return BadRequest("UserFormID already exists");
 
             }
             
@@ -83,16 +83,16 @@ namespace forms.WebAPI.Controllers
         
         // PUT: api/User/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCreator(int id, Creator creator)
+        public async Task<IActionResult> PutUserForm(int id, UserForm userForm)
         {
             //bool UserExists(long id) =>_context.User.Any(e => e.UserID == id);
             
-            if (id != creator.CreatorID)
+            if (id != userForm.UserFormID)
                 {
-                    return BadRequest("The Creator ID does not exist");
+                    return BadRequest("The userForm ID does not exist");
                 }
 
-            _context.Entry(creator).State = EntityState.Modified;
+            _context.Entry(userForm).State = EntityState.Modified;
 
             try
                 {
@@ -100,7 +100,7 @@ namespace forms.WebAPI.Controllers
                 }
             catch (DbUpdateConcurrencyException)
                 {
-                    if (! CreatorExists(id))
+                    if (! UserFormExists(id))
                     {
                         return NotFound("User not found");
                     }
@@ -115,23 +115,23 @@ namespace forms.WebAPI.Controllers
 
         // DELETE: api/user/5
         [HttpDelete("{id}")]
-         public async Task<ActionResult<Creator>> DeleteCreator(int id)
+         public async Task<ActionResult<UserForm>> DeleteUserForm(int id)
         {
-            var creator = await _context.Creator.FindAsync(id);
-            if (creator == null)
+            var userForm = await _context.UserForm.FindAsync(id);
+            if (userForm == null)
             {
                 return NotFound();
             }
 
             try
             {
-                _context.Creator.Remove(creator);
+                _context.UserForm.Remove(userForm);
                 await _context.SaveChangesAsync();
-                return (creator);
+                return (userForm);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (! CreatorExists(id))
+                if (!UserFormExists(id))
                 {
                     return NotFound();
                 }
@@ -142,6 +142,6 @@ namespace forms.WebAPI.Controllers
             }
         }
         
-        private bool CreatorExists(int id) => _context.Creator.Any(e => e.CreatorID == id);    
+        private bool UserFormExists(int id) => _context.UserForm.Any(e => e.UserFormID == id);    
     }
 }
